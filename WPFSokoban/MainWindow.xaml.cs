@@ -22,11 +22,53 @@ namespace WPFSokoban
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<ObservableCollection<ICellsViewModel>> CellsCollection = new ObservableCollection<ObservableCollection<ICellsViewModel>>();
-
+        public ObservableCollection<ObservableCollection<ICellsViewModel>> CellsCollection;
+        int[,] intmap = { { 1, 1, 1, 1, 1 }, { 1, 2, 5, 2, 1 }, { 1, 2, 3, 2, 1 }, { 1, 2, 4, 2, 1 }, { 1, 1, 1, 1, 1 } };
         public MainWindow()
         {
+
             InitializeComponent();
+
+            this.CellsCollection = generateMapViewModel();
+            map.ItemsSource = this.CellsCollection;
+        }
+
+        private ObservableCollection<ObservableCollection<ICellsViewModel>> generateMapViewModel()
+        {
+            ObservableCollection<ObservableCollection<ICellsViewModel>> cellMap = new ObservableCollection<ObservableCollection<ICellsViewModel>>();
+            for (int i = 0; i < 5; i++)
+            {
+                ObservableCollection<ICellsViewModel> cellRow = new ObservableCollection<ICellsViewModel>();
+                for (int j = 0; j < 5; j++)
+                {
+                    ICellsViewModel cell; 
+                    switch(intmap[i, j])
+                    {
+                        case 1:
+                            cell = new WallCellViewModel();
+                            break;
+                        case 2:
+                            cell = new FloorCellViewModel();
+                            break;
+                        case 3:
+                            cell = new GoalCellViewModel();
+                            break;
+                        case 4:
+                            cell = new PlayerCellViewModel();
+                            break;
+                        case 5:
+                            cell = new BoxCellViewModel();
+                            break;
+                        default:
+                            cell = new FloorCellViewModel();
+                            break;
+                    }
+                    cellRow.Add(cell);
+                }
+                cellMap.Add(cellRow);
+            }
+
+            return cellMap;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace WPFSokoban.ViewModels
 
         public FloorCellViewModel()
         {
-            this.DisplayedImagePath = "";
+            this.DisplayedImagePath = "Assets/Floor.png";
         }
     }
 }

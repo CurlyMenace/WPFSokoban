@@ -7,25 +7,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Floor.png" />
+    <None Remove="Assets\goal.png" />
+    <None Remove="Assets\player.png" />
+    <None Remove="Assets\stuff.png" />
+    <None Remove="Assets\wall.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="CellsFactory\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\Floor.png">
+    <Resource Include="Assets\Floor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\goal.png">
+    </Resource>
+    <Resource Include="Assets\goal.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\player.png">
+    </Resource>
+    <Resource Include="Assets\player.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\stuff.png">
+    </Resource>
+    <Resource Include="Assets\stuff.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\wall.png">
+    </Resource>
+    <Resource Include="Assets\wall.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Resources.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

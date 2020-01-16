@@ -13,7 +13,7 @@ namespace WPFSokoban.ViewModels
 
         public WallCellViewModel()
         {
-            this.DisplayedImagePath = "";
+            this.DisplayedImagePath = "Assets/wall.png";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace WPFSokoban.ViewModels
 
         public GoalCellViewModel()
         {
-            this.DisplayedImagePath = "";
+            this.DisplayedImagePath = "Assets/goal.png";
         }
     }
 }

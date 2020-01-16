@@ -13,7 +13,7 @@ namespace WPFSokoban.ViewModels
 
         public PlayerCellViewModel()
         {
-            this.DisplayedImagePath = "";
+            this.DisplayedImagePath = "Assets/player.png";
         }
     }
 }

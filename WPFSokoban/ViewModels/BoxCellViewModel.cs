@@ -13,7 +13,7 @@ namespace WPFSokoban.ViewModels
 
         public BoxCellViewModel()
         {
-            this.DisplayedImagePath = "";
+            this.DisplayedImagePath = "Assets/stuff.png";
         }
     }
 }

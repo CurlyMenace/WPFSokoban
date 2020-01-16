@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
+        <BitmapImage x:Key="Floor" UriSource="/Assets/Floor.png"/>
+        <BitmapImage x:Key="Goal" UriSource="/Assets/goal.png"/>
+        <BitmapImage x:Key="Player" UriSource="/Assets/player.png"/>
+        <BitmapImage x:Key="Box" UriSource="/Assets/stuff.png"/>
+        <BitmapImage x:Key="Wall" UriSource="/Assets/wall.png"/>
+
         <DataTemplate x:Key="GameRow">
             <Image Source="{Binding DisplayedImagePath}" 
                    Height="40" Width="40" Margin="0,0,0,0"/>
@@ -23,6 +29,6 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        
+        <ItemsControl x:Name="map" ItemTemplate="{DynamicResource GameColumn}"/>
     </Grid>
 </Window>
