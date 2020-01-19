@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WPFSokoban.ViewModels
+namespace WPFSokoban.Models
 {
-    public interface ICellsViewModel
+    public interface ICellsModel
     {
         public string DisplayedImagePath { get;}
     }

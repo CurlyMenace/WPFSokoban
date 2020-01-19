@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WPFSokoban.ViewModels
+namespace WPFSokoban.Models
 {
-    public class FloorCellViewModel : ICellsViewModel
+    public class WallCellModel : ICellsModel
     {
         /// <summary>
         /// Return the path to correct image corresponding to wall
         /// </summary>
         public string DisplayedImagePath { get; }
 
-        public FloorCellViewModel()
+        public WallCellModel()
         {
-            this.DisplayedImagePath = "Assets/Floor.png";
+            this.DisplayedImagePath = "Assets/wall.png";
         }
     }
 }

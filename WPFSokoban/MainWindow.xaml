@@ -29,6 +29,6 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <ItemsControl x:Name="map" ItemTemplate="{DynamicResource GameColumn}"/>
+        <ItemsControl x:Name="map" ItemsSource="{Binding Path=CellsCollection}" ItemTemplate="{DynamicResource GameColumn}" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>
