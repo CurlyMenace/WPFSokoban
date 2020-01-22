@@ -21,14 +21,14 @@ namespace WPFSokoban
         public MainWindow()
         {
             InitializeComponent();
-            InputHandler handler = InputHandler.Instance;
-
-            this.ViewModel.CellsCollection = modelUtilities.MapGenerator(handler.MapState, handler.MapXSize, handler.MapYSize);
+            InputHandler inputHandler = InputHandler.Instance;
+            MapHandler mapHandler = MapHandler.Instance;
+            this.ViewModel.CellsCollection = modelUtilities.MapGenerator(mapHandler.MapState, mapHandler.MapXSize, mapHandler.MapYSize);
 
             //bind the generated map
             map.DataContext = this.ViewModel;
 
-            handler.MapStateChanged += OnMapStateChanged;
+            inputHandler.MapStateChanged += OnMapStateChanged;
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
@@ -40,9 +40,9 @@ namespace WPFSokoban
 
         private void OnMapStateChanged(object sender, EventArgs e)
         {
-            InputHandler handler = InputHandler.Instance;
+            MapHandler mapHandler = MapHandler.Instance;
 
-            this.ViewModel.CellsCollection = modelUtilities.MapGenerator(handler.MapState, handler.MapXSize, handler.MapYSize);
+            this.ViewModel.CellsCollection = modelUtilities.MapGenerator(mapHandler.MapState, mapHandler.MapXSize, mapHandler.MapYSize);
         }
 
     }

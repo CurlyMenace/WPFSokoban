@@ -19,11 +19,6 @@ namespace MapHandlerWPF
 
         private InputHandler()
         {
-
-            itemLayerMapState = new int[,] { { 1, 1, 1, 1, 1 }, { 1, 2, 2, 2, 1 }, { 1, 2, 5, 2, 1 }, { 1, 2, 3, 2, 1 }, { 1, 2, 4, 2, 1 }, { 1, 2, 2, 2, 1 }, { 1, 1, 1, 1, 1 } };
-            MapState = (int[,])itemLayerMapState.Clone();
-            MapXSize = 5;
-            MapYSize = 7;
             playerPos = FindPlayerCurrentPos();
             PlayerMoved += PlayerMoved_EventHandler;
         }
@@ -41,15 +36,12 @@ namespace MapHandlerWPF
         #region private variables
 
         private Tuple<int, int> playerPos;
-        private int[,] itemLayerMapState;
 
         #endregion
 
         #region Properties
 
-        public int[,] MapState { get; private set; }
-        public int MapXSize { get; private set; }
-        public int MapYSize { get; private set; }
+
 
         public Tuple<int, int> PlayerPos
         {
@@ -124,25 +116,23 @@ namespace MapHandlerWPF
 
         private bool CanPlayerMove(Tuple<int, int> newPlayerPos)
         {
-            int newPlayerPosCell = MapState[newPlayerPos.Item1, newPlayerPos.Item2];
+            MapHandler map = MapHandler.Instance;
+            int newPlayerPosCell = map.MapState[newPlayerPos.Item1, newPlayerPos.Item2];
 
             if (newPlayerPosCell == 1)
             {
                 return false;
             }
+
             // Check if the is the box, to handle its movement as well. 
             if (newPlayerPosCell == 5)
             {
-
                 Tuple<int, int> previousPos = FindPlayerCurrentPos();
                 //Get future positions x,y coords for the box
-                int futureBoxPosY = newPlayerPos.Item1 - previousPos.Item1;
-                int futureBoxPosX = previousPos.Item2 - newPlayerPos.Item2;
-
-                Tuple<int, int> futureBoxPos = new Tuple<int, int>(newPlayerPos.Item1 + futureBoxPosY, newPlayerPos.Item2 - futureBoxPosX);
+                Tuple<int, int> futureBoxPos = GetFutureBoxPos(previousPos, newPlayerPos);
 
                 //if it's a wall, do nothing. 
-                if (MapState[futureBoxPos.Item1, futureBoxPos.Item2] == 1)
+                if (map.MapState[futureBoxPos.Item1, futureBoxPos.Item2] == 1)
                 {
                     return false;
                 }
@@ -152,47 +142,50 @@ namespace MapHandlerWPF
 
         private void PlayerMoved_EventHandler(object sender, EventArgs e)
         {
-            Tuple<int, int> previousPos = FindPlayerCurrentPos();
+            MapHandler map = MapHandler.Instance;
 
             if (sender is Tuple<int, int> futurePos)
             {
-                int originalCell = itemLayerMapState[previousPos.Item1, previousPos.Item2];
+                Tuple<int, int> previousPos = FindPlayerCurrentPos();
+                int originalCell = map.ItemLayerMapState[previousPos.Item1, previousPos.Item2];
 
-                if (MapState[futurePos.Item1, futurePos.Item2] == 5)
+                if (map.MapState[futurePos.Item1, futurePos.Item2] == 5)
                 {
-                    //Get future positions x,y coords for the box
-                    int futureBoxPosY = futurePos.Item1 - previousPos.Item1;
-                    int futureBoxPosX = previousPos.Item2 - futurePos.Item2;
 
-                    Tuple<int, int> futureBoxPos = new Tuple<int, int>(futurePos.Item1 + futureBoxPosY, futurePos.Item2 - futureBoxPosX);
-                    SetMapState(futureBoxPos, 5);
+                    Tuple<int, int> futureBoxPos = GetFutureBoxPos(previousPos, futurePos);
+                    map.SetMapState(futureBoxPos, 5);
                 }
 
                 // Set original cell back to its place after player moved, unless it was the player's starting position or a box
-                SetMapState(previousPos,
-                originalCell == 4 || originalCell == 5 ? 2 : itemLayerMapState[previousPos.Item1, previousPos.Item2]);
+                map.SetMapState(previousPos,
+                originalCell == 4 || originalCell == 5 ? 2 : map.ItemLayerMapState[previousPos.Item1, previousPos.Item2]);
 
                 // Move player
-                SetMapState(futurePos, 4);
+                map.SetMapState(futurePos, 4);
 
-                MapStateChanged?.Invoke(MapState, new EventArgs());
+                MapStateChanged?.Invoke(map.MapState, new EventArgs());
             }
         }
 
-
-        private void SetMapState(Tuple<int, int> destination, int value)
+        private Tuple<int, int> GetFutureBoxPos(Tuple<int, int> previousPos, Tuple<int, int> futurePos)
         {
-            MapState[destination.Item1, destination.Item2] = value;
+            //Get future positions x,y coords for the box
+            int futureBoxPosY = futurePos.Item1 - previousPos.Item1;
+            int futureBoxPosX = futurePos.Item2 - previousPos.Item2;
+            return new Tuple<int, int>(futurePos.Item1 + futureBoxPosY, futurePos.Item2 + futureBoxPosX);
         }
+
 
         private Tuple<int, int> FindPlayerCurrentPos()
         {
+            MapHandler map = MapHandler.Instance;
+
             Tuple<int, int> pos = new Tuple<int, int>(0, 0);
-            for (int i = 0; i < MapYSize; i++)
+            for (int i = 0; i < map.MapYSize; i++)
             {
-                for (int j = 0; j < MapXSize; j++)
+                for (int j = 0; j < map.MapXSize; j++)
                 {
-                    if (MapState[i, j] == 4)
+                    if (map.MapState[i, j] == 4)
                     {
                         pos = new Tuple<int, int>(i, j);
                     }
